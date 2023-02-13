@@ -271,18 +271,15 @@ class Elegant
      * it will kill the application
      * @param int $id
      * @return stdClass|void
+     * @throws Exception
      */
     public function findOrFail($id)
     {
         if (!is_numeric($id)) {
             throw new Exception("The id must be numeric");
         }
-        try {
-            return $this->find($id);
-        } catch (Exception $e) {
-            echo $e->getMessage();
-            die();
-        }
+        return $this->find($id);
+
     }
 
     /**

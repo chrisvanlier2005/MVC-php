@@ -51,11 +51,16 @@ class Router
         return $parameters;
     }
 
+    /**
+     * @throws \ReflectionException
+     */
     public function execute() : bool
     {
+        /*
         if ($this->matched) {
             return false;
         }
+        */
         $url = "/";
         if (isset($_GET['q'])) {
             $url .= $_GET['q'];
@@ -71,32 +76,20 @@ class Router
             if (!str_ends_with($route['url'], "/")) {
                 $route['url'] .= "/";
             }
-
-
-            if ($route["checked"]) {
-                continue;
-            }
             if ($this->urlParameterMatch($route["url"], $url, $key)[0] && $route['method'] == $this->getTrueRequestMethod()) {
                 $params = $this->urlParameterMatch($route["url"], $url, $key)[1];
-                if ($params == null) {
-                    $params = [];
-                }
+                if ($params == null) $params = [];
                 $callback = $route['callback'];
+                // check if the callback is an Controller method. [UserController::class, 'index']
                 if (is_array($callback)) {
                     $controller = new $callback[0]();
                     $reflection = new ReflectionMethod($controller, $callback[1]);
                     $parameters = $reflection->getParameters();
-                    $data = [];
-                    foreach ($parameters as $index => $parameter) {
-                        $data[] = $parameter->getName();
-                    }
                     $result = $controller->{$callback[1]}(...$params);
-                    $this->matched = true;
                 } else {
-
                     $result = $callback(...$params);
-                    $this->matched = true;
                 }
+                $this->matched = true;
                 $this->registeredRoutes[$key]["checked"] = true;
                 return $result;
             }
@@ -274,7 +267,9 @@ class Router
      */
     public function __destruct()
     {
-        call_user_func($this->notFoundHandler[0]);
+        if (!$this->matched){
+            call_user_func($this->notFoundHandler[0]);
+        }
     }
 
 }

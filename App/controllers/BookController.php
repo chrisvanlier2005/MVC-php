@@ -1,6 +1,6 @@
 <?php
 namespace App\Controllers;
-use App\Models\Book;
+use App\models\Book;
 use Core\Controller;
 use Exception;
 
@@ -20,7 +20,7 @@ class BookController extends Controller
     /**
      * @throws Exception
      */
-    public function show(int $id): bool
+    public function show(string $id): bool
     {
         $book = Book::retrieve()->findOrFail($id);
         return $this->view("Books.BookShow", [

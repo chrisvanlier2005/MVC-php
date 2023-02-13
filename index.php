@@ -11,10 +11,12 @@ function dd($var){
     die();
 }
 
-// top level catch
+/*
+ * Running the Router
+*/
 try {
     require "web/routes.php";
     Router::run();
 } catch (Exception $e){
-    $errorHandler = new \Core\Error($e);
+    new Core\Error($e);
 }

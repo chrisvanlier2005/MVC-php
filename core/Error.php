@@ -12,7 +12,11 @@ class Error extends Controller {
 
     private function handle(): void
     {
-        dd($this->exception->getTrace());
+        Router::NotFound(function (){
+            return false;
+        });
+
+        $this->view("errors.exception", ["error" => $this->exception]);
     }
 
 

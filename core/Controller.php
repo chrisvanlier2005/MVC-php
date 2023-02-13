@@ -10,7 +10,7 @@ class Controller {
         foreach ($properties as $property => $value) {
             $$property = $value;
         }
-        $path = __DIR__ . '/../app/views/' . $path;
+        $path = __DIR__ . '/../App/views/' . $path;
         if (!file_exists($path)){
             throw new \Exception("View {$viewName} does not exist in {$path}");
         }
