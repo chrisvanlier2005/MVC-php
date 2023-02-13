@@ -1,0 +1,21 @@
+{
+    "name": "chris/mvc",
+    "description": "Project",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Core\\": "core/",
+            "Web\\": "web/"
+        }
+    },
+    "authors": [
+        {
+            "name": "chrisvanlier2005",
+            "email": "87958@glr.nl"
+        }
+    ],
+    "require": {
+        "psr/container": "^2.0"
+    }
+}
