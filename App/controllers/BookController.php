@@ -11,7 +11,9 @@ class BookController extends Controller
      */
     public function index(): bool
     {
-       $books = Book::all();
+       $books = Book::retrieve()
+           ->orderBy("id", "DESC")
+           ->get();
        return $this->view('Books.BookIndex', [
            "books" => $books
        ]);
@@ -41,8 +43,12 @@ class BookController extends Controller
      */
     public function store(){
         $request = $_POST;
-        Book::create($request);
-        return $this->redirect("/");
+        if (empty($request["title"]) || empty($request["author"]) || empty($request["isbn"])){
+            return $this->redirect("/create?error=empty");
+        }
+        $book = Book::create($request);
+        Book::hydrate($book);
+        return $this->redirect("/{$book->id}");
     }
 
     /**
@@ -60,13 +66,20 @@ class BookController extends Controller
      * @throws Exception
      */
     public function update(int $id){
+        $request = $_POST;
         $book = Book::retrieve()->findOrFail($id);
         Book::hydrate($book);
+
+        if (empty($_POST["title"]) || empty($_POST["author"]) || empty($_POST["isbn"])){
+            return $this->redirect("/$id/edit?error=empty");
+        }
+
         $book->update([
-            "title" => "test",
-            "author" => "chris",
-            "isbn" => "123456789"
+            "title" => $request["title"],
+            "author" => $request["author"],
+            "isbn" => $request["isbn"]
         ]);
+        return $this->redirect("/");
     }
 
     /**
@@ -74,6 +87,7 @@ class BookController extends Controller
      */
     public function destroy(int $id){
         $book = Book::retrieve()->findOrFail($id);
+        Book::hydrate($book);
         $book->delete();
         return $this->redirect("/");
     }

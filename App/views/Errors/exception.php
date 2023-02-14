@@ -4,7 +4,7 @@ $errorMessage = $error->getMessage();
 
 ?>
 <div class="message">
-    <h1>Exception</h1>
+    <h1>Uncaught Exception</h1>
     <h3>
         <strong>Message:</strong> <?= $errorMessage ?>
     </h3>
@@ -64,7 +64,11 @@ $errorMessage = $error->getMessage();
         list-style: none;
         padding: 20px;
         border: 1px solid #ccc;
-        margin-bottom: 20px;
+        margin: 1rem 0;
+        border-radius: 5px;
+    }
+    .trace li p{
+        padding: 5px;
     }
     .message h1{
         text-align: center;
