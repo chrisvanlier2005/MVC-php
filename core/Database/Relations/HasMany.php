@@ -1,12 +1,12 @@
 <?php
 namespace Core\Database\Relations;
-use Core\Database\QueryType;
+
 
 class HasMany extends \Core\Database\Relations\BaseRelation
 {
 
     public function execute_relation(&$result, QueryType $type, $relation_primary_key = "id"){
-        if ($type == QueryType::SINGLE)
+        if ($type == 1)
         {
             return $this->fetchSingle($result);
         }

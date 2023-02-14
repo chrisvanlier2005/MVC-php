@@ -1,13 +1,16 @@
 <?php
 namespace Core\Database;
 
-enum Order{
-    case ASC;
-    case DESC;
-}
+
+
+use Exception;
 
 trait Filters
 {
+    private $ORDER = [
+        "ASC" => 1,
+        "DESC" => 2
+    ];
 
     public function where($column, $operator, $value){
         $this->query .= " WHERE {$column} {$operator} ?";
@@ -15,21 +18,17 @@ trait Filters
         return $this;
     }
     private function getOrderEnum($order){
-        switch($order){
-            case "DESC":
-                return Order::DESC;
-            default:
-                return Order::ASC;
-        }
+        return match ($order) {
+            "DESC" => $this->ORDER["DESC"],
+            default => $this->ORDER["ASC"],
+        };
     }
 
     private function getOrderString($order){
-        switch($order){
-            case Order::DESC:
-                return "DESC";
-            default:
-                return "ASC";
-        }
+        return match ($order) {
+            $this->ORDER["DESC"] => "DESC",
+            default => "ASC",
+        };
     }
 
     public function orderBy($column, $order = "ASC"){
@@ -62,6 +61,9 @@ trait Filters
         return $this;
     }
 
+    /**
+     * @throws Exception
+     */
     public function whereIn($column, array $values){
         // check if it's an associative array
         if (array_keys($values) !== range(0, count($values) - 1)) {

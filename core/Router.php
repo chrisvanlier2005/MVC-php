@@ -7,9 +7,9 @@ use ReflectionMethod;
 class Router
 {
     private static Router $routerInstance;
-    public $registeredRoutes = [];
-    private $prefixStack = [];
-    private $notFoundHandler = [];
+    public array $registeredRoutes = [];
+    private array $prefixStack = [];
+    private array $notFoundHandler = [];
     private bool $matched = false;
 
     public function __construct()

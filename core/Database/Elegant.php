@@ -6,11 +6,16 @@ use Exception;
 use ReflectionClass;
 use ReflectionException;
 use stdClass;
-enum QueryType
+/*enum QueryType
 {
     case SINGLE;
     case MULTIPLE;
-}
+}*/
+
+$QueryType = [
+    "SINGLE" => 1,
+    "MULTIPLE" => 2
+];
 
 class Elegant
 {
@@ -132,9 +137,9 @@ class Elegant
 
     private function get_relations(&$result): void
     {
-        $type = QueryType::SINGLE;
+        $type = 1;
         if (!$result instanceof stdClass) {
-            $type = QueryType::MULTIPLE;
+            $type = 2;
         }
 
         foreach ($this->relations as $relation) {
