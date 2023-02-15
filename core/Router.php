@@ -3,6 +3,7 @@
 namespace Core;
 
 use ReflectionMethod;
+use ReflectionClass;
 
 class Router
 {
@@ -259,6 +260,15 @@ class Router
     public function removePrefix(): void
     {
         array_pop($this->prefixStack);
+    }
+
+    public static function singleton() : static
+    {
+        // return the Router Singleton;
+        if(isset(self::$routerInstance)){
+            return self::$routerInstance;
+        }
+        return new static();
     }
 
 

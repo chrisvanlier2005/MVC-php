@@ -1,21 +1,19 @@
 <?php
-
-use Core\Router;
-
 require __DIR__ . "/vendor/autoload.php";
 
-
-
+use App\App;
+use Core\Http\Request;
+use Core\Router;
 
 function dd($var){
-    header('Content-Type: application/json');
-    echo json_encode($var);
+    var_dump($var);
     die();
 }
 
+$app = new App();
+
 try {
-    require __DIR__ . "/web/routes.php";
-    Router::run();
+    $app->run();
 } catch (Exception $e){
     new Core\Error($e, true);
 }
