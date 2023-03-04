@@ -12,6 +12,9 @@ class Error extends Controller {
         $this->handle();
     }
 
+    /**
+     * @throws \Exception
+     */
     private function handle(): void
     {
         Router::NotFound(function (){
@@ -21,11 +24,17 @@ class Error extends Controller {
         $this->debug ? $this->debug() : $this->production();
     }
 
+    /**
+     * @throws \Exception
+     */
     private function debug(): void
     {
         $this->view("errors.exception", ["error" => $this->exception]);
     }
 
+    /**
+     * @throws \Exception
+     */
     private function production(): void
     {
         // return a 500 error

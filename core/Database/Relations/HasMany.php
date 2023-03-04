@@ -2,6 +2,8 @@
 namespace Core\Database\Relations;
 
 
+use Core\Database\DatabaseQuery;
+
 class HasMany extends \Core\Database\Relations\BaseRelation
 {
 
